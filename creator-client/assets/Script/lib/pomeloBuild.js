@@ -1443,7 +1443,8 @@ pomeloBuild.create = function () {
                 };
                 var onclose = function (event) {
                     pomelo.emit('close', event);
-                    console.error('socket close: ', JSON.stringify(event));
+                    pomelo.emit('disconnect', event);
+                    console.warn('socket close: ', JSON.stringify(event));
                 };
                 socket = new WebSocket(url);
                 socket.binaryType = 'arraybuffer';
