@@ -10,11 +10,15 @@ var chatRoute = function(session, msg, app, cb) {
 		cb(new Error('can not find chat servers.'));
 		return;
 	}
-
 	var res = dispatcher.dispatch(session.get('rid'), chatServers);
-
 	cb(null, res.id);
 };
+
+// route for time server
+var timeRoute = function(routeParam, msg, app, cb) {
+  var timeServers = app.getServersByType('time');
+  cb(null, timeServers[routeParam % timeServers.length].id);
+}
 
 /**
  * Init app for client.

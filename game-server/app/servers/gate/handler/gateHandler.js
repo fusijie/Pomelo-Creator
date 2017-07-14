@@ -1,10 +1,10 @@
 var dispatcher = require('../../../util/dispatcher');
 
-module.exports = function(app) {
+module.exports = function (app) {
 	return new Handler(app);
 };
 
-var Handler = function(app) {
+var Handler = function (app) {
 	this.app = app;
 };
 
@@ -18,9 +18,9 @@ var handler = Handler.prototype;
  * @param {Function} next next stemp callback
  *
  */
-handler.queryEntry = function(msg, session, next) {
+handler.queryEntry = function (msg, session, next) {
 	var uid = msg.uid;
-	if(!uid) {
+	if (!uid) {
 		next(null, {
 			code: 500
 		});
@@ -28,17 +28,21 @@ handler.queryEntry = function(msg, session, next) {
 	}
 	// get all connectors
 	var connectors = this.app.getServersByType('connector');
-	if(!connectors || connectors.length === 0) {
+	if (!connectors || connectors.length === 0) {
 		next(null, {
 			code: 500
 		});
 		return;
 	}
-	// here we just start `ONE` connector server, so we return the connectors[0] 
-	var res = dispatcher.dispatch(uid, connectors);
-	next(null, {
-		code: 200,
-		host: res.host,
-		port: res.clientPort
+	var routeParam = Math.floor(Math.random() * 10);
+	this.app.rpc.time.timeRemote.getCurrentTime(routeParam, "Hello", routeParam, function (hour, min, sec) {
+		console.log("Remote Time: " + hour + ":" + min + ":" + sec);
+		// select connector, because more than one connector existed.
+		var res = dispatcher.dispatch(uid, connectors);
+		next(null, {
+			code: 200,
+			host: res.host,
+			port: res.clientPort
+		});
 	});
 };
