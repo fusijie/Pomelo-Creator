@@ -2,6 +2,7 @@ var pomelo = require('pomelo');
 var dispatcher = require('./app/util/dispatcher');
 var abuseFilter = require('./app/servers/chat/filter/abuseFilter');
 var helloWorld = require('./app/components/HelloWorld');
+var timeReport = require('./app/modules/timeReport');
 
 // route definition for chat server
 var chatRoute = function(session, msg, app, cb) {
@@ -63,6 +64,8 @@ app.configure('production|development', function() {
 app.configure('production|development', 'master', function() {
   app.load(helloWorld, {interval: 5000});
 });
+
+app.registerAdmin(timeReport, {app: app});
 
 // start app
 app.start();
