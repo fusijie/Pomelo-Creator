@@ -85,7 +85,9 @@ cc.Class({
         node.x = cc.winSize.width/2;
         node.y = cc.winSize.height/2;
         let label_component = node.addComponent(cc.Label);
-        label_component.string = msg;
+		label_component.string = msg;
+		label_component.fontSize = 30;
+		label_component.lineHeight = 40;
         node.runAction(cc.sequence(cc.moveBy(1,0,100),cc.removeSelf()));
         cc.game.addPersistRootNode(node);
     }

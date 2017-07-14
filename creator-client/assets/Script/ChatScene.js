@@ -63,7 +63,7 @@ cc.Class({
         this.lb_desc.string = desc_text;
     },
 
-    send_msg: function () {
+    on_click_send_msg: function () {
         var route = "chat.chatHandler.send";
         var msg = this.eb_text.string;
         var target = this.current_choose_user;
@@ -143,6 +143,8 @@ cc.Class({
         node.y = cc.winSize.height / 2;
         let label_component = node.addComponent(cc.Label);
         label_component.string = msg;
+		label_component.fontSize = 30;
+		label_component.lineHeight = 40;
         node.runAction(cc.sequence(cc.moveBy(1, 0, 100), cc.removeSelf()));
         cc.game.addPersistRootNode(node);
     },
@@ -162,4 +164,8 @@ cc.Class({
         item.getChildByName("sprite").getComponent(cc.Sprite).spriteFrame = this.sf_btn_pressed;
         this.current_choose_user = user;
     },
+
+    on_click_exit_room: function () {
+        pomelo.disconnect();
+    }
 });
